@@ -4,12 +4,13 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2 } from 'lucide-react';
+import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2, ClipboardCheck } from 'lucide-react';
 
 const MENUS = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Students', href: '/admin/students', icon: Users },
     { name: 'Classes', href: '/admin/classes', icon: BookOpen },
+    { name: 'Attendance', href: '/admin/attendance', icon: ClipboardCheck },
     { name: 'Staff', href: '/admin/staff', icon: UserSquare2 },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
@@ -27,14 +28,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     <p className="text-neutral-400 text-xs mt-1 uppercase tracking-widest font-semibold">Admin Panel</p>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-1 px-3">
+                <div className="flex-1 flex flex-col gap-1 px-3 overflow-y-auto">
                     {MENUS.map((item) => {
-                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                        const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`));
                         return (
                             <Link key={item.name} href={item.href}>
                                 <span className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                    ? 'text-white bg-primary-500/15 border border-primary-500/30'
-                                    : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
+                                        ? 'text-white bg-primary-500/15 border border-primary-500/30'
+                                        : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
                                     }`}>
                                     <item.icon size={20} className={isActive ? 'text-primary-500' : ''} />
                                     {item.name}
@@ -59,14 +60,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </nav>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-auto">
+            <main className="flex-1 flex flex-col overflow-hidden">
                 {/* Topbar logic (mobile toggle etc could go here) */}
-                <header className="bg-white border-b border-neutral-200 h-16 flex items-center px-8 md:hidden">
-                    <h1 className="font-display font-semibold">EduCore</h1>
+                <header className="bg-white shadow-sm border-b border-neutral-200 h-16 flex items-center px-8 shrink-0 md:hidden">
+                    <h1 className="font-display font-semibold text-lg">EduCore</h1>
                 </header>
 
-                <div className="max-w-[1200px] mx-auto p-4 md:p-8">
-                    {children}
+                <div className="flex-1 overflow-auto p-4 md:p-8">
+                    <div className="max-w-[1200px] mx-auto h-full">
+                        {children}
+                    </div>
                 </div>
             </main>
 

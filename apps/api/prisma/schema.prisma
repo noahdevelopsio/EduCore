@@ -42,6 +42,8 @@ model Student {
   photoUrl        String?
   createdAt       DateTime @default(now())
   deletedAt       DateTime?
+
+  attendances     Attendance[]
 }
 
 model Class {
@@ -51,6 +53,8 @@ model Class {
   section      String?  
   academicYear String
   teacherId    String?
+
+  attendances  Attendance[]
 }
 
 model Attendance {
@@ -63,6 +67,9 @@ model Attendance {
   markedById String
   syncedAt   DateTime?        
   createdAt  DateTime         @default(now())
+  
+  student    Student          @relation(fields: [studentId], references: [id])
+  class      Class            @relation(fields: [classId], references: [id])
 
   @@unique([studentId, date])
 }
