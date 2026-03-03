@@ -72,7 +72,7 @@ export class GradesController {
         doc.moveDown();
         doc.fontSize(12).text(`Student Name: ${reportData.student!.firstName} ${reportData.student!.lastName}`);
         doc.text(`Admission Number: ${reportData.student!.admissionNumber}`);
-        doc.text(`Class: ${(reportData.student!.class as any)?.name}`);
+        doc.text(`Class: ${((reportData.student as any)!.class as any)?.name}`);
         doc.text(`Term: ${term}     Academic Year: ${year}`);
         doc.moveDown();
 
@@ -87,7 +87,7 @@ export class GradesController {
 
         let yPosition = 210;
         for (const grade of reportData.grades) {
-            doc.text((grade.subject as any).name, 50, yPosition);
+            doc.text(((grade as any).subject as any).name, 50, yPosition);
             doc.text(grade.caScore?.toString() || '-', 250, yPosition);
             doc.text(grade.examScore?.toString() || '-', 320, yPosition);
             doc.text(grade.total?.toString() || '-', 390, yPosition);

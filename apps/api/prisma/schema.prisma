@@ -46,6 +46,7 @@ model Student {
   attendances     Attendance[]
   grades          Grade[]
   class           Class    @relation(fields: [classId], references: [id])
+  feePayments     FeePayment[]
 }
 
 model Class {
@@ -59,6 +60,7 @@ model Class {
   attendances  Attendance[]
   subjects     Subject[]
   students     Student[]
+  feeStructures FeeStructure[]
 }
 
 model Attendance {
@@ -116,6 +118,9 @@ model FeeStructure {
   amount       Float
   term         Int
   academicYear String
+
+  class        Class?         @relation(fields: [classId], references: [id])
+  payments     FeePayment[]
 }
 
 model FeePayment {
@@ -129,6 +134,9 @@ model FeePayment {
   reference       String        @unique
   status          PaymentStatus 
   createdAt       DateTime      @default(now())
+
+  student         Student       @relation(fields: [studentId], references: [id])
+  feeStructure    FeeStructure  @relation(fields: [feeStructureId], references: [id])
 }
 
 model Announcement {

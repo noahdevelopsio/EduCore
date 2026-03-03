@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2, ClipboardCheck, PenTool } from 'lucide-react';
+import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2, ClipboardCheck, PenTool, CreditCard } from 'lucide-react';
 
 const MENUS = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -12,6 +12,7 @@ const MENUS = [
     { name: 'Classes', href: '/admin/classes', icon: BookOpen },
     { name: 'Attendance', href: '/admin/attendance', icon: ClipboardCheck },
     { name: 'Grades', href: '/admin/grades', icon: PenTool },
+    { name: 'Fees', href: '/admin/fees', icon: CreditCard },
     { name: 'Staff', href: '/admin/staff', icon: UserSquare2 },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];

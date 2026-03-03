@@ -66,7 +66,7 @@ export class GradesRepository {
                     select: { id: true, firstName: true, lastName: true, admissionNumber: true }
                 }
             }
-        });
+        } as any);
     }
 
     async getStudentReportCard(schoolId: string, studentId: string, term: number, year: number) {
@@ -75,12 +75,12 @@ export class GradesRepository {
             include: {
                 subject: { select: { name: true } }
             }
-        });
+        } as any);
 
         const student = await this.prisma.student.findUnique({
             where: { id: studentId },
             include: { class: { select: { name: true } } }
-        });
+        } as any);
 
         return { student, grades };
     }
