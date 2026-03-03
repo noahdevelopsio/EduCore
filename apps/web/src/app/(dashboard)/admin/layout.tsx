@@ -4,13 +4,14 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
-import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2, ClipboardCheck } from 'lucide-react';
+import { Users, LayoutDashboard, Settings, LogOut, BookOpen, UserSquare2, ClipboardCheck, PenTool } from 'lucide-react';
 
 const MENUS = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Students', href: '/admin/students', icon: Users },
     { name: 'Classes', href: '/admin/classes', icon: BookOpen },
     { name: 'Attendance', href: '/admin/attendance', icon: ClipboardCheck },
+    { name: 'Grades', href: '/admin/grades', icon: PenTool },
     { name: 'Staff', href: '/admin/staff', icon: UserSquare2 },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
@@ -34,8 +35,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         return (
                             <Link key={item.name} href={item.href}>
                                 <span className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive
-                                        ? 'text-white bg-primary-500/15 border border-primary-500/30'
-                                        : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
+                                    ? 'text-white bg-primary-500/15 border border-primary-500/30'
+                                    : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
                                     }`}>
                                     <item.icon size={20} className={isActive ? 'text-primary-500' : ''} />
                                     {item.name}

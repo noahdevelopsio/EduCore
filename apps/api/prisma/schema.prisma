@@ -44,6 +44,8 @@ model Student {
   deletedAt       DateTime?
 
   attendances     Attendance[]
+  grades          Grade[]
+  class           Class    @relation(fields: [classId], references: [id])
 }
 
 model Class {
@@ -55,6 +57,8 @@ model Class {
   teacherId    String?
 
   attendances  Attendance[]
+  subjects     Subject[]
+  students     Student[]
 }
 
 model Attendance {
@@ -80,6 +84,9 @@ model Subject {
   name     String
   classId  String
   teacherId String
+
+  class     Class   @relation(fields: [classId], references: [id])
+  grades    Grade[]
 }
 
 model Grade {
@@ -94,6 +101,9 @@ model Grade {
   total      Float?
   grade      String? 
   createdAt  DateTime @default(now())
+
+  student    Student @relation(fields: [studentId], references: [id])
+  subject    Subject @relation(fields: [subjectId], references: [id])
 
   @@unique([studentId, subjectId, term, year])
 }
