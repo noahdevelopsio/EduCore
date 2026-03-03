@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model School {
+  id           String   @id @default(uuid())
+  name         String
+  code         String   @unique
+  country      String
+  currency     String   @default("NGN")
+  logoUrl      String?
+  tier         String   @default("starter") // starter | growth | pro
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model User {
+  id           String   @id @default(uuid())
+  schoolId     String
+  role         Role     
+  email        String?
+  phone        String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  deletedAt    DateTime?
+}
+
+model Student {
+  id              String   @id @default(uuid())
+  schoolId        String
+  admissionNumber String
+  firstName       String
+  lastName        String
+  dateOfBirth     DateTime
+  gender          String
+  classId         String
+  guardianId      String?  
+  photoUrl        String?
+  createdAt       DateTime @default(now())
+  deletedAt       DateTime?
+}
+
+model Class {
+  id           String   @id @default(uuid())
+  schoolId     String
+  name         String   
+  section      String?  
+  academicYear String
+  teacherId    String?
+}
+
+model Attendance {
+  id         String           @id @default(uuid())
+  schoolId   String
+  studentId  String
+  classId    String
+  date       DateTime
+  status     AttendanceStatus 
+  markedById String
+  syncedAt   DateTime?        
+  createdAt  DateTime         @default(now())
+
+  @@unique([studentId, date])
+}
+
+model Subject {
+  id       String @id @default(uuid())
+  schoolId String
+  name     String
+  classId  String
+  teacherId String
+}
+
+model Grade {
+  id         String  @id @default(uuid())
+  schoolId   String
+  studentId  String
+  subjectId  String
+  term       Int     
+  year       Int
+  caScore    Float?
+  examScore  Float?
+  total      Float?
+  grade      String? 
+  createdAt  DateTime @default(now())
+
+  @@unique([studentId, subjectId, term, year])
+}
+
+model FeeStructure {
+  id           String  @id @default(uuid())
+  schoolId     String
+  classId      String?
+  name         String  
+  amount       Float
+  term         Int
+  academicYear String
+}
+
+model FeePayment {
+  id              String        @id @default(uuid())
+  schoolId        String
+  studentId       String
+  feeStructureId  String
+  amountPaid      Float
+  paymentDate     DateTime
+  method          String        
+  reference       String        @unique
+  status          PaymentStatus 
+  createdAt       DateTime      @default(now())
+}
+
+model Announcement {
+  id          String   @id @default(uuid())
+  schoolId    String
+  title       String
+  body        String
+  targetRoles Role[]   
+  createdById String
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  SUPER_ADMIN
+  SCHOOL_ADMIN
+  TEACHER
+  PARENT
+  STUDENT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
